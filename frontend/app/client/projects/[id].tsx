@@ -89,7 +89,7 @@ type Invoice = {
 const POLL_MS = 8000;
 
 const STATUS_HERO: Record<Workspace['status'], { label: string; tone: string }> = {
-  healthy: { label: 'BUILDING',     tone: '#22c55e' },
+  healthy: { label: 'BUILDING',     tone: '#2FE6A6' },
   watch:   { label: 'MONITORING',   tone: '#60a5fa' },
   at_risk: { label: 'AT RISK',      tone: '#f59e0b' },
   blocked: { label: 'BLOCKED',      tone: '#ef4444' },
@@ -99,8 +99,8 @@ const MODULE_TONE: Record<string, string> = {
   pending:     '#6b7280',
   in_progress: '#60a5fa',
   review:      '#f59e0b',
-  done:        '#22c55e',
-  completed:   '#22c55e',
+  done:        '#2FE6A6',
+  completed:   '#2FE6A6',
   paused:      '#ef4444',
 };
 
@@ -121,7 +121,7 @@ function relTime(iso: string): string {
 }
 
 const DOT_COLOR: Record<ActivityEvent['dot'], string> = {
-  green:  '#22c55e',
+  green:  '#2FE6A6',
   yellow: '#f59e0b',
   blue:   '#60a5fa',
   purple: '#a855f7',
@@ -348,7 +348,7 @@ export default function ClientProjectScreen() {
           <View style={s.counterRow}>
             <Counter dot="#60a5fa" n={counters.in_progress} label="in progress" />
             <Counter dot="#f59e0b" n={counters.review}      label="in review" />
-            <Counter dot="#22c55e" n={counters.done}        label="done" />
+            <Counter dot="#2FE6A6" n={counters.done}        label="done" />
           </View>
         </View>
 
@@ -438,7 +438,7 @@ export default function ClientProjectScreen() {
               <View style={s.modulePriceRow}>
                 <Text style={s.modulePrice}>${fmt(m.price)}</Text>
                 {invIsPaid ? (
-                  <Text style={[s.moduleEarn, { color: '#22c55e', fontWeight: '700' }]}>
+                  <Text style={[s.moduleEarn, { color: '#2FE6A6', fontWeight: '700' }]}>
                     ✓ Paid {inv?.paid_at ? `· ${new Date(inv.paid_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : ''}
                   </Text>
                 ) : invIsPending ? (
@@ -449,7 +449,7 @@ export default function ClientProjectScreen() {
               </View>
 
               <View style={s.progressBg}>
-                <View style={[s.progressFill, { width: `${Math.min(100, m.progress_pct)}%`, backgroundColor: invIsPaid ? '#22c55e' : tone }]} />
+                <View style={[s.progressFill, { width: `${Math.min(100, m.progress_pct)}%`, backgroundColor: invIsPaid ? '#2FE6A6' : tone }]} />
               </View>
 
               {/* Passive pressure: state-specific footer that nudges without nagging. */}

@@ -30,6 +30,7 @@ export const T = {
   risk: '#F5C451',      // yellow — review / caution
   info: '#4DA3FF',      // blue — started / neutral-live
   danger: '#FF6B6B',    // red — error / logout
+  role: '#FF8A65',      // soft orange — role-restriction (NOT an error)
   white: '#FFFFFF',
   black: '#000000',
 

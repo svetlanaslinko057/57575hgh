@@ -63,7 +63,7 @@ const SUBTYPES: {
 
 const MODES: { id: Mode; title: string; sub: string; icon: any; accent: string }[] = [
   { id: 'ai',     title: 'Speed focus',   sub: 'Ship quickly · lower cost',          icon: 'flash',       accent: '#7C5CFF' },
-  { id: 'hybrid', title: 'Balanced',      sub: 'Best speed / quality balance',       icon: 'git-network', accent: '#14B8A6' },
+  { id: 'hybrid', title: 'Balanced',      sub: 'Best speed / quality balance',       icon: 'git-network', accent: '#2FE6A6' },
   { id: 'dev',    title: 'Quality focus', sub: 'Maximum quality · longer build',     icon: 'ribbon',      accent: '#F59E0B' },
 ];
 

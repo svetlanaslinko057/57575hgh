@@ -24,7 +24,7 @@ type HumanAction = {
 };
 
 const CONF_COLOURS = {
-  green: '#22d3b4',
+  green: '#2FE6A6',
   yellow: '#f5b93a',
   grey: '#6c7a7a',
 };
@@ -120,7 +120,7 @@ export function SystemActionsFeed({ limit = 5 }: { limit?: number }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#0f1b1f', borderRadius: 12, padding: 16,
-    borderWidth: 1, borderColor: '#22d3b433', marginVertical: 8,
+    borderWidth: 1, borderColor: '#2FE6A633', marginVertical: 8,
   },
   header: {
     flexDirection: 'row', justifyContent: 'space-between',
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   why: { color: '#6c7a7a', fontSize: 10, marginTop: 6, fontStyle: 'italic' },
 
   moreBtn: { marginTop: 10, alignItems: 'center' },
-  moreTxt: { color: '#22d3b4', fontSize: 12, fontWeight: '600' },
+  moreTxt: { color: '#2FE6A6', fontSize: 12, fontWeight: '600' },
 });
 
 export default SystemActionsFeed;

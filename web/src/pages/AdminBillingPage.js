@@ -14,7 +14,7 @@ const API = `${BACKEND_URL}/api`;
 
 const STATUS_TONE = {
   pending_payment: { label: "Pending", bg: "#f59e0b22", color: "#f59e0b", border: "#f59e0b55" },
-  paid:            { label: "Paid",    bg: "#10b98122", color: "#10b981", border: "#10b98155" },
+  paid:            { label: "Paid",    bg: "#2FE6A622", color: "#2FE6A6", border: "#2FE6A655" },
   failed:          { label: "Failed",  bg: "#ef444422", color: "#ef4444", border: "#ef444455" },
   cancelled:       { label: "Cancelled", bg: "#6b728022", color: "#9ca3af", border: "#6b728055" },
   draft:           { label: "Draft",   bg: "#3b82f622", color: "#3b82f6", border: "#3b82f655" },
@@ -123,7 +123,7 @@ export default function AdminBillingPage() {
           <Stat label="Total" value={stats.total} />
           <Stat label="Pending" value={stats.pending_payment_count} accent="#f59e0b"
                 sub={fmtMoney(stats.pending_payment_amount)} />
-          <Stat label="Paid" value={stats.paid_count} accent="#10b981"
+          <Stat label="Paid" value={stats.paid_count} accent="#2FE6A6"
                 sub={fmtMoney(stats.paid_amount)} />
           <Stat label="Failed" value={stats.failed_count} accent="#ef4444" />
         </div>
@@ -147,8 +147,8 @@ export default function AdminBillingPage() {
         <div
           style={{
             ...st.toast,
-            background: toast.kind === "error" ? "#ef444422" : "#10b98122",
-            borderColor: toast.kind === "error" ? "#ef444455" : "#10b98155",
+            background: toast.kind === "error" ? "#ef444422" : "#2FE6A622",
+            borderColor: toast.kind === "error" ? "#ef444455" : "#2FE6A655",
             color: toast.kind === "error" ? "#fca5a5" : "#86efac",
           }}
           onClick={() => setToast(null)}
@@ -346,7 +346,7 @@ const st = {
     borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer",
   },
   btnSuccess: {
-    background: "#10b981", color: "#fff", border: "none",
+    background: "#2FE6A6", color: "#fff", border: "none",
     borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer",
   },
   btnGhost: {

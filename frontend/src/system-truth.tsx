@@ -23,15 +23,15 @@ type Truth = {
 };
 
 const VERDICT_META: Record<string, { label: string; color: string; icon: any; subtitle: string }> = {
-  working:    { label: 'Working',    color: '#22c55e', icon: 'checkmark-circle', subtitle: 'System healthy and signals are real' },
+  working:    { label: 'Working',    color: '#2FE6A6', icon: 'checkmark-circle', subtitle: 'System healthy and signals are real' },
   drifting:   { label: 'Drifting',   color: '#f59e0b', icon: 'trending-down',    subtitle: 'Scaling firing but NOT healing' },
   pretending: { label: 'Under Pressure', color: '#ef4444', icon: 'warning',       subtitle: 'No real bids despite scaling' },
   idle:       { label: 'Idle',       color: '#64748b', icon: 'moon',             subtitle: 'No real activity in the market' },
   empty_market: { label: 'Empty Market', color: '#64748b', icon: 'hourglass',    subtitle: 'No developers, no modules — nothing to work on yet' },
 };
 
-const PRESSURE_COLOR: Record<string, string> = { low: '#22c55e', medium: '#f59e0b', high: '#ef4444' };
-const QUALITY_COLOR: Record<string, string> = { high: '#22c55e', medium: '#f59e0b', neutral: '#64748b', low: '#ef4444' };
+const PRESSURE_COLOR: Record<string, string> = { low: '#2FE6A6', medium: '#f59e0b', high: '#ef4444' };
+const QUALITY_COLOR: Record<string, string> = { high: '#2FE6A6', medium: '#f59e0b', neutral: '#64748b', low: '#ef4444' };
 
 export default function SystemTruth() {
   const [truth, setTruth] = useState<Truth | null>(null);
@@ -142,7 +142,7 @@ export default function SystemTruth() {
 }
 
 function Row({ label, value, bad, good }: { label: string; value: string; bad?: boolean; good?: boolean }) {
-  const color = bad ? '#ef4444' : good ? '#22c55e' : T.text;
+  const color = bad ? '#ef4444' : good ? '#2FE6A6' : T.text;
   return (
     <View style={s.rowLine}>
       <Text style={s.rowLabel}>{label}</Text>

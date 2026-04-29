@@ -25,7 +25,7 @@ type Score = {
 };
 
 const BAND: Record<string, { bg: string; fg: string; label: string }> = {
-  reliable:   { bg: '#0d3a2f', fg: '#22d3b4', label: 'RELIABLE' },
+  reliable:   { bg: '#0d3a2f', fg: '#2FE6A6', label: 'RELIABLE' },
   normal:     { bg: '#1b3020', fg: '#6fd67a', label: 'NORMAL' },
   unstable:   { bg: '#3a2f1b', fg: '#f5b93a', label: 'UNSTABLE' },
   unreliable: { bg: '#3a1b1b', fg: '#ff6b6b', label: 'UNRELIABLE' },
@@ -63,7 +63,7 @@ export function ReliabilityBadge({ developerId }: Props) {
   }, [developerId]);
 
   if (loading) {
-    return <View style={styles.card}><ActivityIndicator color="#22d3b4" /></View>;
+    return <View style={styles.card}><ActivityIndicator color="#2FE6A6" /></View>;
   }
   if (error || !score) {
     return <View style={styles.card}><Text style={styles.err}>{error || 'No data'}</Text></View>;
@@ -130,7 +130,7 @@ function Row({ label, value, note }: { label: string; value: number; note?: stri
         <View style={[
           styles.barFill,
           { width: `${pct * 100}%`,
-            backgroundColor: pct > 0.7 ? '#22d3b4' : pct > 0.4 ? '#f5b93a' : '#ff6b6b' },
+            backgroundColor: pct > 0.7 ? '#2FE6A6' : pct > 0.4 ? '#f5b93a' : '#ff6b6b' },
         ]} />
       </View>
       {note && <Text style={styles.rowNote}>{note}</Text>}
@@ -141,7 +141,7 @@ function Row({ label, value, note }: { label: string; value: number; note?: stri
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#0f1b1f', borderRadius: 12, padding: 16,
-    borderWidth: 1, borderColor: '#22d3b433', marginVertical: 8,
+    borderWidth: 1, borderColor: '#2FE6A633', marginVertical: 8,
   },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   h: { color: '#e5f6f3', fontSize: 16, fontWeight: '700' },
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   row: {},
   rowHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
   rowLabel: { color: '#e5f6f3', fontSize: 12, fontWeight: '600' },
-  rowVal: { color: '#22d3b4', fontSize: 12, fontWeight: '700' },
+  rowVal: { color: '#2FE6A6', fontSize: 12, fontWeight: '700' },
   bar: { height: 4, backgroundColor: '#1c2a2e', borderRadius: 2, overflow: 'hidden' },
   barFill: { height: 4 },
   rowNote: { color: '#6c7a7a', fontSize: 10, marginTop: 3 },
@@ -169,12 +169,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
   },
   combinedLbl: { color: '#6c7a7a', fontSize: 11, fontWeight: '600' },
-  combinedVal: { color: '#22d3b4', fontSize: 22, fontWeight: '800' },
+  combinedVal: { color: '#2FE6A6', fontSize: 22, fontWeight: '800' },
 
   warn: {
     color: '#ff6b6b', fontSize: 11, marginTop: 12, fontStyle: 'italic', lineHeight: 16,
   },
-  good: { color: '#22d3b4', fontSize: 11, marginTop: 12, fontWeight: '600' },
+  good: { color: '#2FE6A6', fontSize: 11, marginTop: 12, fontWeight: '600' },
 });
 
 export default ReliabilityBadge;

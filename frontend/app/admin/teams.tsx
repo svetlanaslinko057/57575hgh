@@ -87,7 +87,7 @@ export default function TeamsAdminScreen() {
   if (loading) {
     return (
       <SafeAreaView style={styles.center}>
-        <ActivityIndicator color="#22d3b4" />
+        <ActivityIndicator color="#2FE6A6" />
       </SafeAreaView>
     );
   }
@@ -108,7 +108,7 @@ export default function TeamsAdminScreen() {
       <Stack.Screen options={{ title: 'Team Layer', headerStyle: { backgroundColor: '#0a1214' }, headerTintColor: '#e5f6f3' }} />
       <ScrollView
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22d3b4" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#2FE6A6" />}
       >
         <Text style={styles.h1}>Team Layer</Text>
         <Text style={styles.sub}>Modules → N developers with roles & responsibility shares</Text>
@@ -154,7 +154,7 @@ export default function TeamsAdminScreen() {
                   styles.loadFill,
                   {
                     width: `${Math.min(100, d.utilization * 100)}%`,
-                    backgroundColor: d.utilization > 1 ? '#ff6b6b' : d.utilization > 0.8 ? '#f5b93a' : '#22d3b4',
+                    backgroundColor: d.utilization > 1 ? '#ff6b6b' : d.utilization > 0.8 ? '#f5b93a' : '#2FE6A6',
                   },
                 ]} />
               </View>
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   sub: { color: '#6c7a7a', fontSize: 12, marginTop: 4, marginBottom: 16 },
   empty: { color: '#6c7a7a', fontSize: 13, fontStyle: 'italic', marginVertical: 8 },
   err: { color: '#ff6b6b', fontSize: 14 },
-  btn: { backgroundColor: '#22d3b4', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
+  btn: { backgroundColor: '#2FE6A6', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
   btnTxt: { color: '#0a1214', fontWeight: '700' },
 
   summaryRow: { flexDirection: 'row', gap: 8 },
@@ -244,28 +244,28 @@ const styles = StyleSheet.create({
   loadBar: {
     height: 6, backgroundColor: '#1c2a2e', borderRadius: 3, overflow: 'hidden',
   },
-  loadFill: { height: 6, backgroundColor: '#22d3b4' },
+  loadFill: { height: 6, backgroundColor: '#2FE6A6' },
 
   modCard: {
     backgroundColor: '#0f1b1f', borderRadius: 12, padding: 14, marginBottom: 10,
-    borderWidth: 1, borderColor: '#22d3b433',
+    borderWidth: 1, borderColor: '#2FE6A633',
   },
   modHeader: { flexDirection: 'row', justifyContent: 'space-between' },
   modTitle: { color: '#e5f6f3', fontSize: 15, fontWeight: '700', flex: 1 },
-  modPrice: { color: '#22d3b4', fontSize: 14, fontWeight: '700' },
+  modPrice: { color: '#2FE6A6', fontSize: 14, fontWeight: '700' },
   modMeta: { color: '#6c7a7a', fontSize: 11, marginTop: 4 },
   memberList: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 10 },
   memberChip: {
     backgroundColor: '#1c2a2e', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 4,
   },
   memberChipTxt: { color: '#6c7a7a', fontSize: 11, fontWeight: '600' },
-  memberOwner: { color: '#22d3b4' },
+  memberOwner: { color: '#2FE6A6' },
   actionRow: { flexDirection: 'row', gap: 8, marginTop: 12 },
   actBtn: {
     flex: 1, backgroundColor: '#1c2a2e', paddingVertical: 8, borderRadius: 6,
     alignItems: 'center',
   },
   actBtnTxt: { color: '#e5f6f3', fontSize: 12, fontWeight: '600' },
-  actBtnPrimary: { backgroundColor: '#22d3b4' },
+  actBtnPrimary: { backgroundColor: '#2FE6A6' },
   actBtnPrimaryTxt: { color: '#0a1214' },
 });

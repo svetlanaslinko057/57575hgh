@@ -62,7 +62,7 @@ export function ModuleTeam({ moduleId, canEdit, onAssignPress, onRemoveMember }:
   if (loading) {
     return (
       <View style={styles.card} testID="module-team-loading">
-        <ActivityIndicator color="#22d3b4" />
+        <ActivityIndicator color="#2FE6A6" />
       </View>
     );
   }
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 8,
     borderWidth: 1,
-    borderColor: '#22d3b433',
+    borderColor: '#2FE6A633',
   },
   header: {
     flexDirection: 'row',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   sub: { color: '#6c7a7a', fontSize: 12, marginTop: 4, marginBottom: 10 },
   empty: { color: '#6c7a7a', fontSize: 13, marginVertical: 10 },
   err: { color: '#ff6b6b', fontSize: 13 },
-  linkTxt: { color: '#22d3b4', fontSize: 13, fontWeight: '600' },
+  linkTxt: { color: '#2FE6A6', fontSize: 13, fontWeight: '600' },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -197,12 +197,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   roleChipTxt: { color: '#6c7a7a', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
-  roleChipOwner: { color: '#22d3b4' },
+  roleChipOwner: { color: '#2FE6A6' },
   rowMid: { flex: 1 },
   name: { color: '#e5f6f3', fontSize: 14, fontWeight: '600' },
   meta: { color: '#6c7a7a', fontSize: 11, marginTop: 2 },
   rowRight: { alignItems: 'flex-end', marginRight: 6 },
-  share: { color: '#22d3b4', fontSize: 14, fontWeight: '700' },
+  share: { color: '#2FE6A6', fontSize: 14, fontWeight: '700' },
   alloc: { color: '#6c7a7a', fontSize: 10, marginTop: 2 },
   removeBtn: {
     width: 24, height: 24, borderRadius: 12,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   removeTxt: { color: '#ff6b6b', fontSize: 18, lineHeight: 20 },
   btnPrimary: {
     marginTop: 8,
-    backgroundColor: '#22d3b4',
+    backgroundColor: '#2FE6A6',
     paddingVertical: 10,
     borderRadius: 8,
     alignItems: 'center',

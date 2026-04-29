@@ -46,7 +46,7 @@ type Overview = {
 };
 
 const BAND: Record<string, { fg: string; bg: string; label: string }> = {
-  strong:  { fg: '#22d3b4', bg: '#0d3a2f', label: 'STRONG' },
+  strong:  { fg: '#2FE6A6', bg: '#0d3a2f', label: 'STRONG' },
   stable:  { fg: '#6fd67a', bg: '#1b3020', label: 'STABLE' },
   fragile: { fg: '#f5b93a', bg: '#3a2f1b', label: 'FRAGILE' },
   failing: { fg: '#ff6b6b', bg: '#3a1b1b', label: 'FAILING' },
@@ -139,7 +139,7 @@ export default function TeamsIntelligenceScreen() {
     }
   };
 
-  if (loading) return <SafeAreaView style={styles.center}><ActivityIndicator color="#22d3b4" /></SafeAreaView>;
+  if (loading) return <SafeAreaView style={styles.center}><ActivityIndicator color="#2FE6A6" /></SafeAreaView>;
   if (error) return (
     <SafeAreaView style={styles.center}>
       <Text style={styles.err}>{error}</Text>
@@ -153,7 +153,7 @@ export default function TeamsIntelligenceScreen() {
       <Stack.Screen options={{ title: 'Team Intelligence', headerStyle: { backgroundColor: '#0a1214' }, headerTintColor: '#e5f6f3' }} />
       <ScrollView
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22d3b4" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#2FE6A6" />}
       >
         <View style={styles.hRow}>
           <View style={{ flex: 1 }}>
@@ -232,10 +232,10 @@ const styles = StyleSheet.create({
   sub: { color: '#6c7a7a', fontSize: 12, marginTop: 4 },
   empty: { color: '#6c7a7a', fontSize: 13, fontStyle: 'italic' },
   err: { color: '#ff6b6b', fontSize: 14 },
-  btn: { backgroundColor: '#22d3b4', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
+  btn: { backgroundColor: '#2FE6A6', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
   btnTxt: { color: '#0a1214', fontWeight: '700' },
 
-  recompBtn: { backgroundColor: '#22d3b4', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 6 },
+  recompBtn: { backgroundColor: '#2FE6A6', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 6 },
   recompTxt: { color: '#0a1214', fontSize: 12, fontWeight: '700' },
 
   bandsRow: { flexDirection: 'row', gap: 8 },

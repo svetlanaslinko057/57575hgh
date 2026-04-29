@@ -22,7 +22,7 @@ import T from '../src/theme';
  */
 
 const CTX_META: Record<string, { label: string; icon: any; color: string }> = {
-  client:    { label: 'Client',    icon: 'briefcase',        color: '#14B8A6' },
+  client:    { label: 'Client',    icon: 'briefcase',        color: '#2FE6A6' },
   developer: { label: 'Developer', icon: 'code-slash',       color: '#7C5CFF' },
   admin:     { label: 'Admin',     icon: 'shield-checkmark', color: '#F59E0B' },
 };

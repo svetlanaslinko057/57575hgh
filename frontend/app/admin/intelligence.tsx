@@ -36,7 +36,7 @@ type Overview = {
 };
 
 const BAND_COLORS: Record<string, { bg: string; fg: string; label: string }> = {
-  strong: { bg: '#0d3a2f', fg: '#22d3b4', label: 'STRONG' },
+  strong: { bg: '#0d3a2f', fg: '#2FE6A6', label: 'STRONG' },
   stable: { bg: '#1b3020', fg: '#6fd67a', label: 'STABLE' },
   weak: { bg: '#3a2f1b', fg: '#f5b93a', label: 'WEAK' },
   risk: { bg: '#3a1b1b', fg: '#ff6b6b', label: 'RISK' },
@@ -100,7 +100,7 @@ export default function IntelligenceScreen() {
   };
 
   if (loading) {
-    return <SafeAreaView style={styles.center}><ActivityIndicator color="#22d3b4" /></SafeAreaView>;
+    return <SafeAreaView style={styles.center}><ActivityIndicator color="#2FE6A6" /></SafeAreaView>;
   }
   if (error) {
     return (
@@ -119,7 +119,7 @@ export default function IntelligenceScreen() {
       <Stack.Screen options={{ title: 'Intelligence', headerStyle: { backgroundColor: '#0a1214' }, headerTintColor: '#e5f6f3' }} />
       <ScrollView
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22d3b4" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#2FE6A6" />}
       >
         <View style={styles.hRow}>
           <View style={{ flex: 1 }}>
@@ -180,7 +180,7 @@ export default function IntelligenceScreen() {
         <View style={styles.bandsRow}>
           {(['reliable', 'normal', 'unstable', 'unreliable'] as const).map((b) => {
             const color = {
-              reliable:   { fg: '#22d3b4', label: 'RELIABLE' },
+              reliable:   { fg: '#2FE6A6', label: 'RELIABLE' },
               normal:     { fg: '#6fd67a', label: 'NORMAL' },
               unstable:   { fg: '#f5b93a', label: 'UNSTABLE' },
               unreliable: { fg: '#ff6b6b', label: 'UNRELIABLE' },
@@ -239,11 +239,11 @@ const styles = StyleSheet.create({
   h2: { color: '#e5f6f3', fontSize: 15, fontWeight: '700', marginTop: 20, marginBottom: 8 },
   empty: { color: '#6c7a7a', fontSize: 13, fontStyle: 'italic' },
   err: { color: '#ff6b6b', fontSize: 14 },
-  btn: { backgroundColor: '#22d3b4', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
+  btn: { backgroundColor: '#2FE6A6', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
   btnTxt: { color: '#0a1214', fontWeight: '700' },
 
   recompBtn: {
-    backgroundColor: '#22d3b4', paddingHorizontal: 14, paddingVertical: 8,
+    backgroundColor: '#2FE6A6', paddingHorizontal: 14, paddingVertical: 8,
     borderRadius: 6,
   },
   recompBtnBusy: { opacity: 0.5 },

@@ -296,9 +296,9 @@ export default function ChatScreen() {
         {/* Phase 2.A — referral one-shot announce. Only when eligible AND not yet seen. */}
         {refAnnounce ? (
           <View style={s.msgRow} testID="chat-msg-referral-announce">
-            <View style={[s.msgBubble, { backgroundColor: '#10B98114', borderColor: '#10B98155' }]}>
+            <View style={[s.msgBubble, { backgroundColor: '#2FE6A614', borderColor: '#2FE6A655' }]}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={[s.msgKind, { color: '#10B981' }]}>EARN</Text>
+                <Text style={[s.msgKind, { color: '#2FE6A6' }]}>EARN</Text>
                 <TouchableOpacity
                   testID="chat-referral-dismiss"
                   onPress={dismissReferralAnnounce}
@@ -313,7 +313,7 @@ export default function ChatScreen() {
               <View style={s.actionRow}>
                 <TouchableOpacity
                   testID="chat-referral-get-link"
-                  style={[s.actionBtn, { backgroundColor: '#10B981' }]}
+                  style={[s.actionBtn, { backgroundColor: '#2FE6A6' }]}
                   onPress={() => {
                     void dismissReferralAnnounce();
                     router.push('/client/referrals' as any);

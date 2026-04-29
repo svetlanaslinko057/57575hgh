@@ -70,7 +70,7 @@ const MODES: {
       'Optimized architecture',
       'Stable launch',
     ],
-    color: '#14B8A6',
+    color: '#2FE6A6',
     icon: 'git-network',
     popular: true,
   },
@@ -388,8 +388,8 @@ export default function Index() {
             - when long enough: "Ready to plan" — tells user CTA is unlocked */}
         {!error && goalLen > 0 && (
           <View style={s.analyzingRow} testID="visitor-analyzing">
-            <View style={[s.pulseDot, !isTooShort && { backgroundColor: '#14B8A6' }]} />
-            <Text style={[s.analyzingText, !isTooShort && { color: '#14B8A6' }]}>
+            <View style={[s.pulseDot, !isTooShort && { backgroundColor: '#2FE6A6' }]} />
+            <Text style={[s.analyzingText, !isTooShort && { color: '#2FE6A6' }]}>
               {isTooShort ? 'Analyzing your idea…' : 'Ready to plan'}
             </Text>
           </View>

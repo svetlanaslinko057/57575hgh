@@ -83,7 +83,7 @@ type DevWork = {
 
 const MODES: { id: Mode; label: string; sub: string; icon: any; accent: string }[] = [
   { id: 'ai',     label: 'Fast build',     sub: 'Fastest, lowest cost',          icon: 'flash',       accent: '#7C5CFF' },
-  { id: 'hybrid', label: 'Balanced build', sub: 'Balanced speed & quality',      icon: 'git-network', accent: '#14B8A6' },
+  { id: 'hybrid', label: 'Balanced build', sub: 'Balanced speed & quality',      icon: 'git-network', accent: '#2FE6A6' },
   { id: 'dev',    label: 'Full build',     sub: 'Maximum quality — human team',  icon: 'ribbon',      accent: '#F59E0B' },
 ];
 

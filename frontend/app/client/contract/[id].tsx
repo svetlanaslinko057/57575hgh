@@ -267,7 +267,7 @@ export default function ProjectContractScreen() {
         <Row label="Timeline" value={data.timeline.label} />
         <Row label="Cost"
              value={fmtMoney(data.totals.total_value, data.totals.currency)}
-             accent="#10B981"
+             accent="#2FE6A6"
              bold />
 
         <View style={s.divider} />
@@ -289,7 +289,7 @@ export default function ProjectContractScreen() {
         <Text style={s.label}>INCLUDES</Text>
         {data.includes.map((it) => (
           <View key={it} style={s.includeRow}>
-            <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+            <Ionicons name="checkmark-circle" size={16} color="#2FE6A6" />
             <Text style={s.includeText}>{it}</Text>
           </View>
         ))}
@@ -390,9 +390,9 @@ const s = StyleSheet.create({
   statusBadgeDraftText: { color: '#F59E0B', fontWeight: '800', fontSize: 10, letterSpacing: 1 },
   statusBadgeSigned: {
     paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999,
-    backgroundColor: '#10B98122', borderWidth: 1, borderColor: '#10B98155',
+    backgroundColor: '#2FE6A622', borderWidth: 1, borderColor: '#2FE6A655',
   },
-  statusBadgeSignedText: { color: '#10B981', fontWeight: '800', fontSize: 10, letterSpacing: 1 },
+  statusBadgeSignedText: { color: '#2FE6A6', fontWeight: '800', fontSize: 10, letterSpacing: 1 },
   statusBadgeAwait: {
     paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999,
     backgroundColor: '#3B82F622', borderWidth: 1, borderColor: '#3B82F655',

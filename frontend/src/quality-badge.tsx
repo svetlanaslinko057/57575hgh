@@ -21,7 +21,7 @@ type Score = {
 };
 
 const BAND_COLORS: Record<string, { bg: string; fg: string; label: string }> = {
-  strong: { bg: '#0d3a2f', fg: '#22d3b4', label: 'STRONG' },
+  strong: { bg: '#0d3a2f', fg: '#2FE6A6', label: 'STRONG' },
   stable: { bg: '#1b3020', fg: '#6fd67a', label: 'STABLE' },
   weak: { bg: '#3a2f1b', fg: '#f5b93a', label: 'WEAK' },
   risk: { bg: '#3a1b1b', fg: '#ff6b6b', label: 'RISK' },
@@ -53,7 +53,7 @@ export function QualityBadge({ developerId, compact }: Props) {
   if (loading) {
     return (
       <View style={styles.card}>
-        <ActivityIndicator color="#22d3b4" />
+        <ActivityIndicator color="#2FE6A6" />
       </View>
     );
   }
@@ -133,7 +133,7 @@ function Row({ label, value, note, weight }: { label: string; value: number; not
         <View style={[
           styles.barFill,
           { width: `${pct * 100}%`,
-            backgroundColor: pct > 0.7 ? '#22d3b4' : pct > 0.4 ? '#f5b93a' : '#ff6b6b' },
+            backgroundColor: pct > 0.7 ? '#2FE6A6' : pct > 0.4 ? '#f5b93a' : '#ff6b6b' },
         ]} />
       </View>
       {note && <Text style={styles.rowNote}>{note}</Text>}
@@ -144,7 +144,7 @@ function Row({ label, value, note, weight }: { label: string; value: number; not
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#0f1b1f', borderRadius: 12, padding: 16,
-    borderWidth: 1, borderColor: '#22d3b433', marginVertical: 8,
+    borderWidth: 1, borderColor: '#2FE6A633', marginVertical: 8,
   },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   h: { color: '#e5f6f3', fontSize: 16, fontWeight: '700' },
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   rowHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
   rowLabel: { color: '#e5f6f3', fontSize: 12, fontWeight: '600' },
   rowWeight: { color: '#6c7a7a', fontSize: 10, fontWeight: '400' },
-  rowVal: { color: '#22d3b4', fontSize: 12, fontWeight: '700' },
+  rowVal: { color: '#2FE6A6', fontSize: 12, fontWeight: '700' },
   bar: { height: 4, backgroundColor: '#1c2a2e', borderRadius: 2, overflow: 'hidden' },
   barFill: { height: 4 },
   rowNote: { color: '#6c7a7a', fontSize: 10, marginTop: 3 },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     color: '#ff6b6b', fontSize: 11, marginTop: 12, fontStyle: 'italic',
     lineHeight: 16,
   },
-  good: { color: '#22d3b4', fontSize: 11, marginTop: 12, fontWeight: '600' },
+  good: { color: '#2FE6A6', fontSize: 11, marginTop: 12, fontWeight: '600' },
 });
 
 export default QualityBadge;

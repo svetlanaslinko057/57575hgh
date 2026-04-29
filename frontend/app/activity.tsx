@@ -159,7 +159,7 @@ export default function Activity() {
             onPress={() => router.push('/client/referrals' as any)}
           >
             <View style={s.earnIcon}>
-              <Ionicons name="cash-outline" size={20} color="#10B981" />
+              <Ionicons name="cash-outline" size={20} color="#2FE6A6" />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={s.earnTitle}>Earn with EVA-X</Text>
@@ -269,13 +269,13 @@ const s = StyleSheet.create({
 
   earnCard: {
     flexDirection: 'row', alignItems: 'center', gap: T.md,
-    backgroundColor: '#10B98114', borderColor: '#10B98155',
+    backgroundColor: '#2FE6A614', borderColor: '#2FE6A655',
     borderWidth: 1, borderRadius: T.radius,
     padding: T.md, marginBottom: T.lg,
   },
   earnIcon: {
     width: 36, height: 36, borderRadius: 10,
-    backgroundColor: '#10B98122',
+    backgroundColor: '#2FE6A622',
     alignItems: 'center', justifyContent: 'center',
   },
   earnTitle: { color: T.text, fontSize: T.body, fontWeight: '700' },

@@ -167,7 +167,7 @@ export default function ClientReferralsScreen() {
         <View style={s.linkActionRow}>
           <TouchableOpacity
             testID="referrals-copy-btn"
-            style={[s.linkBtn, copied && { backgroundColor: '#10B981' }]}
+            style={[s.linkBtn, copied && { backgroundColor: '#2FE6A6' }]}
             onPress={onCopy}
             disabled={!fullUrl}
           >
@@ -193,7 +193,7 @@ export default function ClientReferralsScreen() {
       {/* BLOCK 3 — Wallet */}
       <Text style={s.section}>Wallet</Text>
       <View style={s.walletRow} testID="referrals-wallet">
-        <WalletCell label="AVAILABLE" value={fmtMoney(wallet.available_balance)} accent="#10B981" testID="wallet-available" />
+        <WalletCell label="AVAILABLE" value={fmtMoney(wallet.available_balance)} accent="#2FE6A6" testID="wallet-available" />
         <WalletCell label="PENDING"   value={fmtMoney(wallet.pending_balance)}   accent="#F59E0B" testID="wallet-pending" />
         <WalletCell label="LIFETIME"  value={fmtMoney(wallet.lifetime_earned)}   accent={T.text}  testID="wallet-lifetime" />
       </View>
@@ -366,7 +366,7 @@ const s = StyleSheet.create({
   refAvatarText: { color: T.text, fontWeight: '800', fontSize: 14 },
   refName: { color: T.text, fontSize: T.body, fontWeight: '700' },
   refStatus: { color: T.textMuted, fontSize: T.small, marginTop: 2 },
-  refEarned: { color: '#10B981', fontWeight: '800', fontSize: T.body },
+  refEarned: { color: '#2FE6A6', fontWeight: '800', fontSize: T.body },
 
   howCard: {
     backgroundColor: T.surface1, borderRadius: T.radius,

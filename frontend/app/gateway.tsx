@@ -22,7 +22,7 @@ import T from '../src/theme';
  */
 
 const ROLES = [
-  { role: 'admin', label: 'Admin', desc: 'Control Center', icon: 'shield-checkmark' as const, color: T.danger, route: '/admin/control' },
+  { role: 'admin', label: 'Admin', desc: 'Control Center', icon: 'shield-checkmark' as const, color: T.role, route: '/admin/control' },
   { role: 'developer', label: 'Developer', desc: 'Execution Hub', icon: 'code-slash' as const, color: T.primary, route: '/developer/home' },
   { role: 'client', label: 'Client', desc: 'Project Workspace', icon: 'briefcase' as const, color: T.info, route: '/client/home' },
   { role: 'tester', label: 'Tester', desc: 'QA Hub', icon: 'bug' as const, color: T.risk, route: '/admin/qa' },

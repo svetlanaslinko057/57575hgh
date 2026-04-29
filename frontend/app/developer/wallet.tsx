@@ -159,7 +159,7 @@ export default function DeveloperWalletScreen() {
                 <Text style={s.rowTitle}>+{fmt(h.amount)}</Text>
                 <Text style={s.rowMeta}>{dateStr(h.created_at)} · {h.reason.replace(/_/g, ' ')}</Text>
               </View>
-              <Ionicons name="checkmark-circle" size={20} color="#10B981" />
+              <Ionicons name="checkmark-circle" size={20} color="#2FE6A6" />
             </View>
           ))
         )}
@@ -253,7 +253,7 @@ function Pill({ status }: { status: string }) {
   const map: Record<string, { bg: string; color: string; label: string }> = {
     requested: { bg: '#F59E0B22', color: '#F59E0B', label: 'Requested' },
     approved:  { bg: '#3B82F622', color: '#3B82F6', label: 'Approved' },
-    paid:      { bg: '#10B98122', color: '#10B981', label: 'Paid' },
+    paid:      { bg: '#2FE6A622', color: '#2FE6A6', label: 'Paid' },
     rejected:  { bg: '#EF444422', color: '#EF4444', label: 'Rejected' },
   };
   const it = map[status] || { bg: T.surface2, color: T.textMuted, label: status };

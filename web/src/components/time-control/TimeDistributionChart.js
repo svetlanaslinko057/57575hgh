@@ -33,7 +33,7 @@ export const TimeDistributionChart = ({ categoryBreakdown }) => {
   ];
 
   const categoryColors = {
-    execution: '#10b981',     // green
+    execution: '#2FE6A6',     // green
     debugging: '#f59e0b',    // orange
     revision: '#ef4444',     // red
     communication: '#3b82f6', // blue

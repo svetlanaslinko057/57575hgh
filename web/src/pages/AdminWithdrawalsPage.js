@@ -16,7 +16,7 @@ const API = `${BACKEND_URL}/api`;
 const TONE = {
   requested: { label: "Requested", bg: "#f59e0b22", color: "#f59e0b", border: "#f59e0b55" },
   approved:  { label: "Approved",  bg: "#3b82f622", color: "#3b82f6", border: "#3b82f655" },
-  paid:      { label: "Paid",      bg: "#10b98122", color: "#10b981", border: "#10b98155" },
+  paid:      { label: "Paid",      bg: "#2FE6A622", color: "#2FE6A6", border: "#2FE6A655" },
   rejected:  { label: "Rejected",  bg: "#ef444422", color: "#ef4444", border: "#ef444455" },
 };
 
@@ -91,7 +91,7 @@ export default function AdminWithdrawalsPage() {
         <div style={st.statRow}>
           <Stat label="Requested" value={stats.requested} accent="#f59e0b" sub={fmt(stats.requested_amount)} />
           <Stat label="Approved"  value={stats.approved}  accent="#3b82f6" />
-          <Stat label="Paid"      value={stats.paid}      accent="#10b981" />
+          <Stat label="Paid"      value={stats.paid}      accent="#2FE6A6" />
           <Stat label="Rejected"  value={stats.rejected}  accent="#ef4444" />
         </div>
       ) : null}
@@ -111,8 +111,8 @@ export default function AdminWithdrawalsPage() {
         <div
           style={{
             ...st.toast,
-            background: toast.kind === "error" ? "#ef444422" : "#10b98122",
-            borderColor: toast.kind === "error" ? "#ef444455" : "#10b98155",
+            background: toast.kind === "error" ? "#ef444422" : "#2FE6A622",
+            borderColor: toast.kind === "error" ? "#ef444455" : "#2FE6A655",
             color: toast.kind === "error" ? "#fca5a5" : "#86efac",
           }}
           onClick={() => setToast(null)}
@@ -237,5 +237,5 @@ const st = {
 
   btnPrimary: { background: "#3b82f6", color: "#fff", border: "none", borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" },
   btnDanger:  { background: "#ef4444", color: "#fff", border: "none", borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" },
-  btnSuccess: { background: "#10b981", color: "#fff", border: "none", borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" },
+  btnSuccess: { background: "#2FE6A6", color: "#fff", border: "none", borderRadius: 6, padding: "5px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer" },
 };

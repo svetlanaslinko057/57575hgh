@@ -34,7 +34,7 @@ const TYPE_ICON: Record<string, string> = {
   auto_add_support: '➕',
 };
 const STATUS_COLOR: Record<string, string> = {
-  executed: '#22d3b4',
+  executed: '#2FE6A6',
   pending:  '#f5b93a',
   reverted: '#9fb3b3',
   skipped:  '#6c7a7a',
@@ -99,7 +99,7 @@ export default function AutonomyAdminScreen() {
     }
   };
 
-  if (loading) return <SafeAreaView style={styles.center}><ActivityIndicator color="#22d3b4" /></SafeAreaView>;
+  if (loading) return <SafeAreaView style={styles.center}><ActivityIndicator color="#2FE6A6" /></SafeAreaView>;
   if (error) return (
     <SafeAreaView style={styles.center}>
       <Text style={styles.err}>{error}</Text>
@@ -116,7 +116,7 @@ export default function AutonomyAdminScreen() {
       <Stack.Screen options={{ title: 'System Actions', headerStyle: { backgroundColor: '#0a1214' }, headerTintColor: '#e5f6f3' }} />
       <ScrollView
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22d3b4" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#2FE6A6" />}
       >
         <View style={styles.hRow}>
           <View style={{ flex: 1 }}>
@@ -171,7 +171,7 @@ export default function AutonomyAdminScreen() {
                   <View style={[
                     styles.confFill,
                     { width: `${a.confidence * 100}%`,
-                      backgroundColor: a.confidence >= 0.8 ? '#22d3b4' : a.confidence >= 0.6 ? '#f5b93a' : '#ff6b6b' },
+                      backgroundColor: a.confidence >= 0.8 ? '#2FE6A6' : a.confidence >= 0.6 ? '#f5b93a' : '#ff6b6b' },
                   ]} />
                 </View>
                 <Text style={styles.confVal}>{(a.confidence * 100).toFixed(0)}%</Text>
@@ -212,15 +212,15 @@ const styles = StyleSheet.create({
   h1: { color: '#e5f6f3', fontSize: 22, fontWeight: '800' },
   sub: { color: '#6c7a7a', fontSize: 12, marginTop: 4 },
   err: { color: '#ff6b6b', fontSize: 14 },
-  btn: { backgroundColor: '#22d3b4', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
+  btn: { backgroundColor: '#2FE6A6', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8, marginTop: 10 },
   btnTxt: { color: '#0a1214', fontWeight: '700' },
-  scanBtn: { backgroundColor: '#22d3b4', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 6 },
+  scanBtn: { backgroundColor: '#2FE6A6', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 6 },
   scanTxt: { color: '#0a1214', fontSize: 12, fontWeight: '700' },
 
   summary: { flexDirection: 'row', gap: 8, marginBottom: 12 },
   sCard: { flex: 1, backgroundColor: '#0f1b1f', padding: 12, borderRadius: 8, borderWidth: 1, borderColor: '#1c2a2e' },
   sLbl: { color: '#6c7a7a', fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
-  sNum: { color: '#22d3b4', fontSize: 22, fontWeight: '800', marginTop: 4 },
+  sNum: { color: '#2FE6A6', fontSize: 22, fontWeight: '800', marginTop: 4 },
 
   hint: { color: '#6c7a7a', fontSize: 11, marginBottom: 16, fontStyle: 'italic', lineHeight: 16 },
   empty: { color: '#6c7a7a', fontSize: 13, fontStyle: 'italic', marginTop: 20, textAlign: 'center' },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   confLbl: { color: '#6c7a7a', fontSize: 10, width: 76 },
   confBar: { flex: 1, height: 5, backgroundColor: '#1c2a2e', borderRadius: 3, overflow: 'hidden' },
   confFill: { height: 5 },
-  confVal: { color: '#22d3b4', fontSize: 12, fontWeight: '700', width: 42, textAlign: 'right' },
+  confVal: { color: '#2FE6A6', fontSize: 12, fontWeight: '700', width: 42, textAlign: 'right' },
 
   breakdown: { color: '#6c7a7a', fontSize: 10, marginTop: 6 },
 

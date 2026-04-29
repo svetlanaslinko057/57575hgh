@@ -262,7 +262,7 @@ function PulseDot({ size = 8 }: { size?: number }) {
     <Animated.View
       style={{
         width: size, height: size, borderRadius: size / 2,
-        backgroundColor: '#14B8A6', opacity: a,
+        backgroundColor: '#2FE6A6', opacity: a,
       }}
     />
   );
@@ -309,13 +309,13 @@ const s = StyleSheet.create({
   statusStrip: {
     flexDirection: 'row', alignItems: 'center', gap: T.sm,
     paddingVertical: T.sm, paddingHorizontal: T.md,
-    backgroundColor: '#14B8A611',
+    backgroundColor: '#2FE6A611',
     borderRadius: 999,
-    borderWidth: 1, borderColor: '#14B8A644',
+    borderWidth: 1, borderColor: '#2FE6A644',
     alignSelf: 'flex-start',
     marginTop: T.sm,
   },
-  statusText: { color: '#14B8A6', fontSize: T.small, fontWeight: '700' },
+  statusText: { color: '#2FE6A6', fontSize: T.small, fontWeight: '700' },
 
   heroTitle: { color: T.text, fontSize: 32, fontWeight: '800', lineHeight: 38, marginTop: T.md },
   heroSub: { color: T.textMuted, fontSize: T.body, marginTop: T.sm, lineHeight: 22, marginBottom: T.lg },
@@ -334,9 +334,9 @@ const s = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', gap: 6,
     paddingHorizontal: 10, paddingVertical: 5,
     borderRadius: 999,
-    backgroundColor: '#14B8A611', borderWidth: 1, borderColor: '#14B8A655',
+    backgroundColor: '#2FE6A611', borderWidth: 1, borderColor: '#2FE6A655',
   },
-  progressPillText: { color: '#14B8A6', fontSize: 10, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
+  progressPillText: { color: '#2FE6A6', fontSize: 10, fontWeight: '800', letterSpacing: 1, textTransform: 'uppercase' },
 
   sectionLabel: {
     color: T.textMuted, fontSize: 11, letterSpacing: 2,
@@ -357,8 +357,8 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: T.border,
     backgroundColor: T.surface2,
   },
-  activityIconDone: { backgroundColor: '#14B8A6', borderColor: '#14B8A6' },
-  activityIconPending: { backgroundColor: T.surface2, borderColor: '#14B8A655' },
+  activityIconDone: { backgroundColor: '#2FE6A6', borderColor: '#2FE6A6' },
+  activityIconPending: { backgroundColor: T.surface2, borderColor: '#2FE6A655' },
   activityLabel: { color: T.text, fontSize: T.body, fontWeight: '600' },
   activityAge: { color: T.textMuted, fontSize: T.tiny, marginTop: 2 },
 
