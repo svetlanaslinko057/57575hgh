@@ -193,8 +193,19 @@ export default function DeveloperWork() {
       >
         <View style={s.screenHeader}>
           <Text style={s.screenTitle}>Workspace</Text>
-          <View style={s.rankPill} testID="dev-rank">
-            <Text style={s.rankText}>{ws.developer.rank}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <TouchableOpacity
+              testID="work-time-logs-btn"
+              onPress={() => router.push('/developer/time-logs' as any)}
+              style={s.timeLogsPill}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="time-outline" size={14} color={T.primary} />
+              <Text style={s.timeLogsPillText}>Time logs</Text>
+            </TouchableOpacity>
+            <View style={s.rankPill} testID="dev-rank">
+              <Text style={s.rankText}>{ws.developer.rank}</Text>
+            </View>
           </View>
         </View>
         <Text style={s.headline} testID="dev-headline">{ws.headline}</Text>
@@ -483,6 +494,13 @@ const s = StyleSheet.create({
   screenTitle: { color: T.text, fontSize: T.h2 ?? 24, fontWeight: '800' },
   rankPill: { backgroundColor: T.primary, borderRadius: 14, paddingVertical: 4, paddingHorizontal: 12 },
   rankText: { color: '#000', fontWeight: '800', fontSize: 12, letterSpacing: 1 },
+  timeLogsPill: {
+    flexDirection: 'row', alignItems: 'center', gap: 6,
+    backgroundColor: 'rgba(47,230,166,0.10)',
+    borderWidth: 1, borderColor: 'rgba(47,230,166,0.30)',
+    borderRadius: 14, paddingVertical: 5, paddingHorizontal: 10,
+  },
+  timeLogsPillText: { color: T.primary, fontSize: 11, fontWeight: '700', letterSpacing: 0.4 },
   headline: { color: T.textMuted, fontSize: 12, marginBottom: T.lg, fontWeight: '600' },
   statsRow: { flexDirection: 'row', gap: T.sm, marginBottom: T.lg },
   statCard: { flex: 1, backgroundColor: T.surface1, borderRadius: 10, padding: T.md, borderWidth: 1, borderColor: T.border },
