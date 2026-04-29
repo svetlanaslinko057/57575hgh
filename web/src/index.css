@@ -273,7 +273,7 @@ body {
 
 /* Dark theme делает иконки светлее */
 .dark .icon-text-blue {
-  color: hsl(174 70% 55%);
+  color: hsl(158 78% 60%);
 }
 
 .dark .icon-text-purple {
@@ -362,23 +362,54 @@ body {
 }
 
 .btn-primary {
-  background: white;
-  color: black;
+  background: hsl(var(--primary));
+  color: #0B0F14;
+  border: 1px solid hsl(var(--primary));
 }
 
 .btn-primary:hover {
-  background: #E5E5E5;
+  background: hsl(var(--primary) / 0.92);
+  box-shadow: 0 8px 24px hsl(var(--primary) / 0.18);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  background: hsl(var(--primary));
+  transform: translateY(0);
+  box-shadow: 0 2px 8px hsl(var(--primary) / 0.25);
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled] {
+  background: hsl(var(--primary) / 0.35);
+  border-color: transparent;
+  color: rgba(11,15,20,0.55);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-secondary {
   background: transparent;
   border: 1px solid var(--border);
-  color: white;
+  color: #E6EDF3;
 }
 
 .btn-secondary:hover {
   background: var(--surface-hover);
-  border-color: var(--border-hover);
+  border-color: hsl(var(--primary) / 0.5);
+  color: #FFFFFF;
+}
+
+.btn-secondary:active {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.08);
+}
+
+.btn-secondary:disabled,
+.btn-secondary[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .btn-ghost {

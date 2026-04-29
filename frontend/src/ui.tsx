@@ -200,6 +200,19 @@ export function PrimaryButton({
   );
 }
 
+/* ------------------------------------------------------- SecondaryButton */
+/** Neutral CTA: outline + neutral text. Press = mint border tint to hint
+ *  it'll lead to the same action surface as PrimaryButton. */
+export function SecondaryButton({
+  title, onPress, testID, disabled,
+}: { title: string; onPress: () => void; testID?: string; disabled?: boolean }) {
+  return (
+    <PressScale onPress={onPress} disabled={disabled} testID={testID} style={s.secondary}>
+      <Text style={s.secondaryText}>{title}</Text>
+    </PressScale>
+  );
+}
+
 /* --------------------------------------------------------- SystemStateCard */
 /** Live "Building your product" card. Hero-sized — it's the centre of gravity
  *  on /home. Title 18/600 + LIVE pulse badge + one state line + progress bar. */
@@ -330,7 +343,17 @@ const s = StyleSheet.create({
     borderRadius: T.radius,
     alignItems: 'center',
   },
-  primaryText: { color: '#06130D', fontSize: 15, fontWeight: '700' },
+  primaryText: { color: '#0B0F14', fontSize: 15, fontWeight: '700', letterSpacing: 0.2 },
+  secondary: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: T.borderStrong,
+    paddingVertical: 13,
+    paddingHorizontal: T.lg,
+    borderRadius: T.radius,
+    alignItems: 'center',
+  },
+  secondaryText: { color: T.text, fontSize: 15, fontWeight: '600', letterSpacing: 0.2 },
   sectionLabel: {
     color: T.textMuted,
     fontSize: 12,
