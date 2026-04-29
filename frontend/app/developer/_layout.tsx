@@ -15,11 +15,15 @@ export default function DeveloperLayout() {
         <Tabs.Screen name="work" options={{ title: 'Work', tabBarIcon: ({ color, size }) => <Ionicons name="code-working" size={size} color={color} /> }} />
         <Tabs.Screen name="earnings" options={{ title: 'Earnings', tabBarIcon: ({ color, size }) => <Ionicons name="wallet" size={size} color={color} /> }} />
         <Tabs.Screen name="more" options={{ title: 'More', tabBarIcon: ({ color, size }) => <Ionicons name="ellipsis-horizontal" size={size} color={color} /> }} />
-        {/* Hidden routable screen — wallet is reachable from /developer/earnings.
-            Without this, expo-router auto-adds it as a 6th tab. */}
+        {/* Hidden routable screens — accessible only via /developer/more,
+            never shown as bottom tabs. expo-router auto-adds tabs for any
+            file in this folder unless `href: null` opt-out. */}
         <Tabs.Screen name="wallet" options={{ href: null }} />
-        {/* Acceptance — accessible from work-screen banner; no tab. */}
         <Tabs.Screen name="acceptance" options={{ href: null }} />
+        <Tabs.Screen name="leaderboard" options={{ href: null }} />
+        <Tabs.Screen name="growth" options={{ href: null }} />
+        <Tabs.Screen name="time-logs" options={{ href: null }} />
+        <Tabs.Screen name="feedback" options={{ href: null }} />
       </Tabs>
     </View>
   );

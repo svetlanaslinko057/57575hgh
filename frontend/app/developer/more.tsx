@@ -41,7 +41,6 @@ export default function DeveloperMore() {
   const router = useRouter();
   return (
     <ScrollView style={s.container} contentContainerStyle={s.content}>
-      <Text style={s.h1}>More</Text>
       {SECTIONS.map((sec) => (
         <View key={sec.title} style={s.section}>
           <Text style={s.sectionTitle}>{sec.title}</Text>
