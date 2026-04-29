@@ -65,8 +65,10 @@ export function ReliabilityBadge({ developerId }: Props) {
   if (loading) {
     return <View style={styles.card}><ActivityIndicator color="#2FE6A6" /></View>;
   }
+  // Quietly hide for non-developers (403 "Developer only") — admins/clients
+  // shouldn't see a red badge in the developer surface.
   if (error || !score) {
-    return <View style={styles.card}><Text style={styles.err}>{error || 'No data'}</Text></View>;
+    return null;
   }
 
   const band = BAND[score.reliability_band] || BAND.unstable;

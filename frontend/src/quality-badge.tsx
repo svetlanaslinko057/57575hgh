@@ -57,12 +57,10 @@ export function QualityBadge({ developerId, compact }: Props) {
       </View>
     );
   }
+  // Quietly hide for non-developers (403 "Developer only") — the badge is
+  // a developer-only widget; admins/clients shouldn't see a red error.
   if (error || !score) {
-    return (
-      <View style={styles.card}>
-        <Text style={styles.err}>{error || 'No score'}</Text>
-      </View>
-    );
+    return null;
   }
 
   const band = BAND_COLORS[score.band] || BAND_COLORS.weak;

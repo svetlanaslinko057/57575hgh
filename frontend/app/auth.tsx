@@ -68,7 +68,7 @@ type Step = 'email' | 'code' | 'password';
 export default function AuthScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ intent?: string; email?: string; lead_id?: string }>();
-  const { login, register, verifyCode, demoLogin } = useAuth();
+  const { login, register, verifyCode } = useAuth();
 
   const intent = (params.intent as string) || '';
   const isDeveloperIntent = intent === 'developer';
@@ -228,21 +228,6 @@ export default function AuthScreen() {
     } catch { router.replace('/'); }
   };
 
-  const tryDemo = async () => {
-    setError(''); setBusy(true);
-    // Stale pending-lead from a previous browser/device MUST be cleared before
-    // demoLogin — otherwise afterAuth's lead-claim path will 403 under the
-    // demo user and bounce this screen back to the user.
-    try { await AsyncStorage.removeItem('atlas_pending_lead_id'); } catch { /* ignore */ }
-    try {
-      void track('demo_click');
-      const projectId = await demoLogin();
-      router.replace(`/workspace/${projectId}` as any);
-    } catch (e: any) {
-      setError(extractErrorMessage(e, 'Demo is temporarily unavailable. Try again in a moment.'));
-    } finally { setBusy(false); }
-  };
-
   // ────────────── render ──────────────
 
   return (
@@ -287,15 +272,6 @@ export default function AuthScreen() {
                 disabled={!emailValid || busy}
               >
                 {busy ? <ActivityIndicator color={T.bg} /> : <Text style={s.btnText}>Continue</Text>}
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                testID="auth-demo-btn"
-                style={s.demoBtn}
-                onPress={tryDemo}
-                disabled={busy}
-              >
-                <Text style={s.demoBtnText}>Try Demo — 30 sec tour</Text>
               </TouchableOpacity>
             </>
           )}

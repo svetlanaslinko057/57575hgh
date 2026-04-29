@@ -1,39 +1,101 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useAuth } from '../../src/auth';
 import { Ionicons } from '@expo/vector-icons';
-import T from '../../src/theme';
+import { T } from '../../src/theme';
+import { PressScale } from '../../src/ui';
 
-export default function DevMore() {
-  const { user, logout } = useAuth();
+type Item = {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  desc: string;
+  route: string;
+  badge?: string;
+};
+
+const SECTIONS: { title: string; items: Item[] }[] = [
+  {
+    title: 'Performance',
+    items: [
+      { icon: 'trophy-outline',     label: 'Leaderboard', desc: 'Where you stand vs. other devs', route: '/developer/leaderboard' },
+      { icon: 'trending-up-outline', label: 'Growth',     desc: 'Your trajectory · 30-day window', route: '/developer/growth' },
+    ],
+  },
+  {
+    title: 'Work',
+    items: [
+      { icon: 'time-outline',       label: 'Time Logs',   desc: 'Hours logged across all tasks',   route: '/developer/time-logs' },
+      { icon: 'chatbubble-ellipses-outline', label: 'QA Feedback', desc: 'What QA flagged on your work', route: '/developer/feedback' },
+    ],
+  },
+  {
+    title: 'Account',
+    items: [
+      { icon: 'person-circle-outline', label: 'Profile & Settings', desc: 'Avatar · theme · language · 2FA', route: '/profile' },
+      { icon: 'wallet-outline',     label: 'Wallet',      desc: 'Balance · withdraw · history',     route: '/developer/wallet' },
+    ],
+  },
+];
+
+export default function DeveloperMore() {
   const router = useRouter();
-
   return (
-    <View style={s.container}>
-      <Text style={s.title}>More</Text>
-      <View style={s.profile}>
-        <View style={s.avatar}><Text style={s.avatarText}>{user?.name?.[0] || 'D'}</Text></View>
-        <View><Text style={s.name}>{user?.name}</Text><Text style={s.role}>{user?.tier} tier — {user?.email}</Text></View>
-      </View>
-      {[{ label: 'QA Feedback', icon: 'chatbubbles' }, { label: 'Leaderboard', icon: 'trophy' }, { label: 'Growth', icon: 'trending-up' }, { label: 'Time Logs', icon: 'time' }].map(i => (
-        <TouchableOpacity key={i.label} style={s.item}><Ionicons name={i.icon as any} size={20} color={T.textMuted} /><Text style={s.itemLabel}>{i.label}</Text><Ionicons name="chevron-forward" size={16} color={T.textMuted} /></TouchableOpacity>
+    <ScrollView style={s.container} contentContainerStyle={s.content}>
+      <Text style={s.h1}>More</Text>
+      {SECTIONS.map((sec) => (
+        <View key={sec.title} style={s.section}>
+          <Text style={s.sectionTitle}>{sec.title}</Text>
+          {sec.items.map((it) => (
+            <PressScale
+              key={it.route}
+              testID={`more-${it.route.replace(/\//g, '-')}`}
+              onPress={() => router.push(it.route as any)}
+              style={s.row}
+            >
+              <View style={s.iconWrap}>
+                <Ionicons name={it.icon} size={20} color={T.primary} />
+              </View>
+              <View style={s.body}>
+                <Text style={s.label}>{it.label}</Text>
+                <Text style={s.desc}>{it.desc}</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={T.textMuted} />
+            </PressScale>
+          ))}
+        </View>
       ))}
-      {user && user.roles.length > 1 && (
-        <TouchableOpacity testID="dev-switch-role" style={s.item} onPress={() => router.replace('/gateway')}><Ionicons name="swap-horizontal" size={20} color={T.primary} /><Text style={[s.itemLabel, { color: T.primary }]}>Switch Role</Text><Ionicons name="chevron-forward" size={16} color={T.primary} /></TouchableOpacity>
-      )}
-      <TouchableOpacity testID="dev-logout" style={s.item} onPress={() => { logout(); router.replace('/auth'); }}><Ionicons name="log-out" size={20} color={T.danger} /><Text style={[s.itemLabel, { color: T.danger }]}>Sign Out</Text></TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: T.bg, padding: T.md },
-  title: { color: T.text, fontSize: T.h1, fontWeight: '800', marginBottom: T.lg },
-  profile: { flexDirection: 'row', alignItems: 'center', backgroundColor: T.surface1, borderRadius: T.radius, padding: T.md, marginBottom: T.lg, borderWidth: 1, borderColor: T.border },
-  avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: T.primary + '33', alignItems: 'center', justifyContent: 'center', marginRight: T.md },
-  avatarText: { color: T.primary, fontSize: T.h2, fontWeight: '700' },
-  name: { color: T.text, fontSize: T.h3, fontWeight: '600' },
-  role: { color: T.textMuted, fontSize: T.small },
-  item: { flexDirection: 'row', alignItems: 'center', backgroundColor: T.surface1, borderRadius: T.radiusSm, padding: T.md, marginBottom: T.sm, gap: T.md, borderWidth: 1, borderColor: T.border },
-  itemLabel: { color: T.text, fontSize: T.body, flex: 1 },
+  container: { flex: 1, backgroundColor: T.bg },
+  content: { padding: T.lg, paddingBottom: T.xl * 2 },
+  h1: { color: T.text, fontSize: T.title, fontWeight: '800', marginBottom: T.lg },
+  section: { marginBottom: T.lg },
+  sectionTitle: {
+    color: T.textMuted, fontSize: 12, fontWeight: '700',
+    letterSpacing: 1.2, textTransform: 'uppercase',
+    marginBottom: T.sm, paddingHorizontal: 4,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: T.md,
+    backgroundColor: T.surface,
+    borderRadius: T.radius,
+    borderWidth: 1,
+    borderColor: T.border,
+    padding: T.md,
+    marginBottom: T.sm,
+  },
+  iconWrap: {
+    width: 38, height: 38,
+    borderRadius: 10,
+    backgroundColor: 'rgba(47,230,166,0.10)',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  body: { flex: 1 },
+  label: { color: T.text, fontSize: T.body, fontWeight: '700' },
+  desc: { color: T.textMuted, fontSize: 12, marginTop: 2 },
 });

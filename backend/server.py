@@ -18266,6 +18266,117 @@ async def stop_timer_endpoint(
         raise HTTPException(status_code=500, detail="Failed to stop timer")
 
 
+@api_router.get("/developer/time-logs")
+async def get_all_developer_time_logs(
+    user: User = Depends(require_role("developer"))
+):
+    """Aggregate view: every active module assigned to me + my logged hours
+    (read from work_units when present, modules are the canonical project unit
+    in this system). Used by the mobile/web `/developer/time-logs` screen."""
+    # Modules first — that's how the rest of the developer surface reads tasks.
+    modules = await db.modules.find(
+        {"assigned_to": user.user_id},
+        {"_id": 0, "module_id": 1, "title": 1, "project_id": 1,
+         "estimated_hours": 1, "actual_hours": 1, "time_breakdown": 1,
+         "status": 1, "completed_at": 1, "created_at": 1}
+    ).to_list(500)
+
+    # Fallback: legacy work_units (older seed data path).
+    if not modules:
+        modules = await db.work_units.find(
+            {"assigned_to": user.user_id},
+            {"_id": 0, "unit_id": 1, "title": 1, "project_id": 1,
+             "actual_hours": 1, "estimated_hours": 1, "time_breakdown": 1,
+             "status": 1, "updated_at": 1}
+        ).to_list(500)
+
+    total_hours = 0.0
+    items = []
+    for u in modules:
+        h = float(u.get("actual_hours") or 0)
+        total_hours += h
+        items.append({
+            "unit_id": u.get("module_id") or u.get("unit_id"),
+            "title": u.get("title", "Untitled"),
+            "project_id": u.get("project_id"),
+            "status": u.get("status"),
+            "actual_hours": h,
+            "estimated_hours": float(u.get("estimated_hours") or 0),
+            "time_breakdown": u.get("time_breakdown") or {},
+            "updated_at": u.get("completed_at") or u.get("updated_at") or u.get("created_at"),
+        })
+    items.sort(key=lambda x: x.get("updated_at") or "", reverse=True)
+    return {
+        "total_hours": round(total_hours, 2),
+        "task_count": len(items),
+        "tasks": items,
+    }
+
+
+@api_router.get("/developer/feedback")
+async def get_developer_qa_feedback(
+    user: User = Depends(require_role("developer"))
+):
+    """All QA feedback received by the developer — flat, paginated-light view."""
+    # All my submissions, then walk reviews looking for revision/feedback.
+    subs = await db.submissions.find(
+        {"developer_id": user.user_id},
+        {"_id": 0, "submission_id": 1, "unit_id": 1, "submitted_at": 1, "status": 1}
+    ).sort("submitted_at", -1).to_list(200)
+
+    items = []
+    for s in subs:
+        rev = await db.reviews.find_one(
+            {"submission_id": s.get("submission_id")},
+            {"_id": 0}
+        )
+        if not rev:
+            continue
+        unit = await db.work_units.find_one(
+            {"unit_id": s.get("unit_id")},
+            {"_id": 0, "title": 1, "project_id": 1}
+        ) or {}
+        items.append({
+            "submission_id": s.get("submission_id"),
+            "unit_id": s.get("unit_id"),
+            "unit_title": unit.get("title", "Untitled"),
+            "project_id": unit.get("project_id"),
+            "result": rev.get("result"),
+            "feedback": rev.get("feedback") or "",
+            "reviewer_id": rev.get("reviewer_id"),
+            "reviewed_at": rev.get("reviewed_at"),
+        })
+
+    # also failed validation issues
+    failed = await db.validation_tasks.find(
+        {"assigned_to": user.user_id, "status": "failed"},
+        {"_id": 0, "validation_id": 1, "unit_id": 1, "completed_at": 1}
+    ).sort("completed_at", -1).to_list(100)
+    for v in failed:
+        issues = await db.validation_issues.find(
+            {"validation_id": v.get("validation_id")},
+            {"_id": 0, "title": 1, "description": 1, "severity": 1}
+        ).to_list(20)
+        if not issues:
+            continue
+        unit = await db.work_units.find_one(
+            {"unit_id": v.get("unit_id")},
+            {"_id": 0, "title": 1, "project_id": 1}
+        ) or {}
+        items.append({
+            "validation_id": v.get("validation_id"),
+            "unit_id": v.get("unit_id"),
+            "unit_title": unit.get("title", "Untitled"),
+            "project_id": unit.get("project_id"),
+            "result": "failed_validation",
+            "issues": issues,
+            "reviewed_at": v.get("completed_at"),
+        })
+
+    items.sort(key=lambda x: x.get("reviewed_at") or "", reverse=True)
+    return {"count": len(items), "items": items}
+
+
 @api_router.get("/developer/tasks/{task_id}/time-logs")
 async def get_task_time_logs_endpoint(
     task_id: str,
@@ -18273,7 +18384,7 @@ async def get_task_time_logs_endpoint(
 ):
     """
     Get all time logs for a task
-    
+
     Shows session history and breakdown
     """
     # Get task to check ownership

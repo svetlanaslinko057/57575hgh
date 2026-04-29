@@ -172,8 +172,7 @@ export default function Profile() {
       )}
       <ActionRow icon="settings" label="Settings"
         testID="profile-action-settings"
-        subdued
-        onPress={() => Alert.alert('Coming soon', 'Settings is on the roadmap.')} />
+        onPress={() => router.push('/settings' as any)} />
 
       <TouchableOpacity
         testID="profile-logout"
