@@ -10221,28 +10221,46 @@ async def request_developer_withdrawal(
 ):
     """Developer asks the platform to pay out `amount` from their available
     balance. Platform admin then approves + sends the actual transfer
-    out-of-band (bank / crypto / w/e). Idempotent on (user_id, requested_at).
+    out-of-band (bank / crypto / w/e).
+
+    Race-safe: the available->pending transfer is performed via a single
+    atomic conditional `update_one` that only applies when the wallet
+    actually has enough balance. Concurrent over-withdraw attempts therefore
+    get a 400 instead of driving the balance negative.
     """
-    amount = float(body.get("amount") or 0)
+    amount = round(float(body.get("amount") or 0), 2)
     if amount <= 0:
         raise HTTPException(status_code=400, detail="amount must be positive")
 
-    wallet = await db.dev_wallets.find_one({"user_id": user.user_id}, {"_id": 0})
-    if not wallet:
-        raise HTTPException(status_code=400, detail="Empty wallet")
-    available = float(wallet.get("available_balance") or 0)
-    if amount > available + 0.001:
+    now = datetime.now(timezone.utc)
+    # Atomic CAS: debit available, credit pending iff available >= amount.
+    cas = await db.dev_wallets.update_one(
+        {
+            "user_id": user.user_id,
+            "available_balance": {"$gte": amount - 0.001},
+        },
+        {
+            "$inc": {
+                "available_balance": -amount,
+                "pending_withdrawal": amount,
+            },
+            "$set": {"updated_at": now.isoformat()},
+        },
+    )
+    if cas.modified_count == 0:
+        # Either wallet missing or insufficient — surface the real number.
+        wallet = await db.dev_wallets.find_one({"user_id": user.user_id}, {"_id": 0}) or {}
+        avail = float(wallet.get("available_balance") or 0)
         raise HTTPException(
             status_code=400,
-            detail=f"Insufficient balance: available ${available:.2f}",
+            detail=f"Insufficient balance: available ${avail:.2f}",
         )
 
-    now = datetime.now(timezone.utc)
     withdrawal_id = f"wd_{uuid.uuid4().hex[:12]}"
     doc = {
         "withdrawal_id": withdrawal_id,
         "user_id": user.user_id,
-        "amount": round(amount, 2),
+        "amount": amount,
         "currency": "USD",
         "status": "requested",  # requested → approved → paid (or rejected)
         "method": (body.get("method") or "manual"),
@@ -10253,19 +10271,15 @@ async def request_developer_withdrawal(
         "paid_at": None,
         "approved_by": None,
     }
-    await db.dev_withdrawals.insert_one(dict(doc))
-
-    # Move money from available → pending bucket so it can't be double-spent.
-    await db.dev_wallets.update_one(
-        {"user_id": user.user_id},
-        {
-            "$inc": {
-                "available_balance": -round(amount, 2),
-                "pending_withdrawal": round(amount, 2),
-            },
-            "$set": {"updated_at": now.isoformat()},
-        },
-    )
+    try:
+        await db.dev_withdrawals.insert_one(dict(doc))
+    except Exception:
+        # Refund the optimistic debit so we don't strand the developer's money.
+        await db.dev_wallets.update_one(
+            {"user_id": user.user_id},
+            {"$inc": {"available_balance": amount, "pending_withdrawal": -amount}},
+        )
+        raise
 
     logger.info(f"DEV WITHDRAW requested: {withdrawal_id} {user.user_id} ${amount:.2f}")
     return {"ok": True, **doc}
@@ -10315,16 +10329,18 @@ async def admin_approve_withdrawal(
     withdrawal_id: str,
     admin: User = Depends(require_role("admin")),
 ):
-    w = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
-    if not w:
-        raise HTTPException(status_code=404, detail="Withdrawal not found")
-    if w["status"] not in ("requested",):
-        return {"ok": True, "already": w["status"]}
+    """Atomic transition `requested → approved`. Concurrent calls / clicks
+    only succeed once; the loser sees the current state."""
     now_iso = datetime.now(timezone.utc).isoformat()
-    await db.dev_withdrawals.update_one(
-        {"withdrawal_id": withdrawal_id},
+    res = await db.dev_withdrawals.update_one(
+        {"withdrawal_id": withdrawal_id, "status": "requested"},
         {"$set": {"status": "approved", "approved_at": now_iso, "approved_by": admin.user_id}},
     )
+    if res.modified_count == 0:
+        cur = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
+        if not cur:
+            raise HTTPException(status_code=404, detail="Withdrawal not found")
+        return {"ok": True, "already": cur["status"]}
     return {"ok": True, "withdrawal_id": withdrawal_id, "status": "approved"}
 
 
@@ -10333,19 +10349,29 @@ async def admin_mark_withdrawal_paid(
     withdrawal_id: str,
     admin: User = Depends(require_role("admin")),
 ):
-    w = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
-    if not w:
-        raise HTTPException(status_code=404, detail="Withdrawal not found")
-    if w["status"] == "paid":
-        return {"ok": True, "already": True}
-    if w["status"] == "rejected":
-        raise HTTPException(status_code=400, detail="Withdrawal was rejected")
+    """Atomic transition `approved → paid`. The transition itself is the
+    lock — only the *one* request that flips the row gets to move money.
+    Per stage-3 contract the row must already be approved (approve ≠ pay).
+    """
     now_iso = datetime.now(timezone.utc).isoformat()
-    await db.dev_withdrawals.update_one(
-        {"withdrawal_id": withdrawal_id},
+    res = await db.dev_withdrawals.update_one(
+        {"withdrawal_id": withdrawal_id, "status": "approved"},
         {"$set": {"status": "paid", "paid_at": now_iso}},
     )
-    # Drain pending_withdrawal → withdrawn_lifetime so the wallet stays consistent.
+    if res.modified_count == 0:
+        cur = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
+        if not cur:
+            raise HTTPException(status_code=404, detail="Withdrawal not found")
+        if cur["status"] == "paid":
+            return {"ok": True, "already": True}
+        if cur["status"] == "rejected":
+            raise HTTPException(status_code=400, detail="Withdrawal was rejected")
+        if cur["status"] == "requested":
+            raise HTTPException(status_code=400, detail="Approve before paying")
+        raise HTTPException(status_code=400, detail=f"Cannot pay (status={cur['status']})")
+
+    # Sole winner of the CAS — now it's safe to drain pending → withdrawn.
+    w = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
     await db.dev_wallets.update_one(
         {"user_id": w["user_id"]},
         {"$inc": {
@@ -10363,18 +10389,26 @@ async def admin_reject_withdrawal(
     body: dict = Body(default={}),
     admin: User = Depends(require_role("admin")),
 ):
-    w = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
-    if not w:
-        raise HTTPException(status_code=404, detail="Withdrawal not found")
-    if w["status"] in ("paid", "rejected"):
-        return {"ok": True, "already": w["status"]}
+    """Atomic transition `requested|approved → rejected` and restore
+    funds to the developer's `available_balance`. Will not fight a
+    concurrent mark-paid: whichever transition wins the CAS, the other
+    sees the new state and is a no-op."""
     reason = (body.get("reason") or "").strip() or "rejected_by_admin"
     now_iso = datetime.now(timezone.utc).isoformat()
-    await db.dev_withdrawals.update_one(
-        {"withdrawal_id": withdrawal_id},
+    res = await db.dev_withdrawals.update_one(
+        {
+            "withdrawal_id": withdrawal_id,
+            "status": {"$in": ["requested", "approved"]},
+        },
         {"$set": {"status": "rejected", "rejected_at": now_iso, "reject_reason": reason}},
     )
-    # Restore the funds to the developer's available balance.
+    if res.modified_count == 0:
+        cur = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
+        if not cur:
+            raise HTTPException(status_code=404, detail="Withdrawal not found")
+        return {"ok": True, "already": cur["status"]}
+
+    w = await db.dev_withdrawals.find_one({"withdrawal_id": withdrawal_id}, {"_id": 0})
     await db.dev_wallets.update_one(
         {"user_id": w["user_id"]},
         {"$inc": {

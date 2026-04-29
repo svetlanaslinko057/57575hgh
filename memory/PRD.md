@@ -32,19 +32,36 @@
 - client@atlas.dev / client123
 - multi@atlas.dev / multi123
 
-## Этап 3 — Wallet / Withdraw / Admin payouts ✅
+## Этап 3 — Wallet / Withdraw / Admin payouts ✅ (race-safe)
 
-Полный денежный цикл замкнут и протестирован end-to-end:
+Полный денежный цикл замкнут и протестирован end-to-end + стресс-тестами.
 
-| Шаг | API | Изменения |
-|-----|-----|-----------|
-| Dev requests $600 | `POST /api/developer/withdraw` | avail −600, pending +600 |
-| Admin approves | `POST /api/admin/withdrawals/{id}/approve` | status → approved |
-| Admin marks paid | `POST /api/admin/withdrawals/{id}/mark-paid` | pending −600, withdrawn +600 |
+### Endpoints
+- `GET  /api/developer/wallet`
+- `POST /api/developer/withdraw` `{amount, method, destination}`
+- `GET  /api/developer/withdrawals`
+- `GET  /api/admin/withdrawals?status={requested|approved|paid|rejected|all}`
+- `POST /api/admin/withdrawals/{id}/approve`  (only `requested → approved`)
+- `POST /api/admin/withdrawals/{id}/reject`   (only `requested|approved → rejected`, refunds available)
+- `POST /api/admin/withdrawals/{id}/mark-paid` (only `approved → paid`, drains pending → withdrawn)
 
-Реализованные экраны:
-- Mobile: `/app/frontend/app/developer/wallet.tsx` — hero-balance + Withdraw-modal
-- Web: `/app/web/src/pages/DeveloperEarnings.js` + `/app/web/src/pages/AdminWithdrawalsPage.js`
+### Состояния
+| Шаг | Изменения wallet |
+|-----|------------------|
+| Dev request | available −amt, pending +amt |
+| Admin approve | (no money move) |
+| Admin mark-paid | pending −amt, withdrawn +amt |
+| Admin reject | pending −amt, available +amt |
+
+### Race-safety (атомарные CAS на MongoDB `update_one`)
+- **withdraw**: единый `update_one({user_id, available_balance: {$gte: amount}}, {$inc: {-amt, +pending}})` — TOCTOU невозможен. Подтверждено стресс-тестом: 5 параллельных withdraw на сумму > available → 2 прошли, 3 → HTTP 400.
+- **approve / mark-paid / reject**: единый `update_one({withdrawal_id, status: <expected>}, {$set: status: <next>})`. Только победитель CAS двигает деньги. Подтверждено стресс-тестом: 3 параллельных mark-paid → ровно один успех, 2 → `{already: true}` без двойного списания.
+- **Invariant**: `available + pending + withdrawn == earned_lifetime` сохраняется во всех точках (проверено стресс-тестом, diff=0.00).
+
+### UI
+- Mobile: `frontend/app/developer/wallet.tsx` — hero-balance + Withdraw-modal + history
+- Web: `web/src/pages/DeveloperEarnings.js` (dev) + `web/src/pages/AdminWithdrawalsPage.js` (admin queue)
+
 
 ## Что было сделано при развёртывании
 1. Склонирован репозиторий
